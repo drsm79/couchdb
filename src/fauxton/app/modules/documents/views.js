@@ -134,7 +134,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
     template: "templates/documents/upload_modal",
 
     disableLoader: true,
-    
+
     initialize: function (options) {
       _.bindAll(this);
     },
@@ -199,7 +199,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       this.$('.progress').addClass('hide');
       this.clear_error_msg();
       this.$('.modal').modal();
-      // hack to get modal visible 
+      // hack to get modal visible
       $('.modal-backdrop').css('z-index',1025);
     },
 
@@ -252,7 +252,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       this.$('.progress').addClass('hide');
       this.clear_error_msg();
       this.$('.modal').modal();
-      // hack to get modal visible 
+      // hack to get modal visible
       $('.modal-backdrop').css('z-index',1025);
     },
 
@@ -395,8 +395,8 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
     },
 
     destroy: function (event) {
-      event.preventDefault(); 
-      
+      event.preventDefault();
+
       window.alert('Cannot delete a document generated from a view.');
     },
 
@@ -424,7 +424,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         ddoc: this.ddoc,
         database: this.database,
         index_clean: app.mixins.removeSpecialCharacters(this.index),
-        ddoc_clean: app.mixins.removeSpecialCharacters(this.ddoc), 
+        ddoc_clean: app.mixins.removeSpecialCharacters(this.ddoc),
         index_encoded: app.mixins.safeURLName(this.index),
         ddoc_encoded: app.mixins.safeURLName(this.ddoc),
         database_encoded: app.mixins.safeURLName(this.database),
@@ -447,7 +447,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       this.newView = options.newView || false;
       this.showNumbers = options.showNumbers;
       this.pagination = options.pagination;
-      
+
       this.listenTo(this.collection, 'totalRows:decrement', this.render);
     },
 
@@ -661,7 +661,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
           });
 
           model.collection.remove(model.id);
-          if (!!model.id.match('_design')) { 
+          if (!!model.id.match('_design')) {
             FauxtonAPI.triggerRouteEvent('reloadDesignDocs');
           }
           that.$('.bulk-delete').addClass('disabled');
@@ -706,13 +706,13 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
 
           return true;
         },
-        
+
         nextUrlfn: function () {
           return collection.urlNextPage(perPage());
         }
       });
     },
-    
+
     cleanup: function () {
       //if (!this.pagination) { return; }
       this.pagination.remove();
@@ -863,12 +863,12 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         }
         deferred.reject();
      });
-      
+
       return deferred;
     },
 
     saveDoc: function(event) {
-      var json, notification, 
+      var json, notification,
       that = this,
       editor = this.editor,
       validDoc = this.getDocFromEditor();
@@ -1315,7 +1315,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       ddoc.removeDdocView(viewName);
 
       if (ddoc.hasViews()) {
-        promise = ddoc.save(); 
+        promise = ddoc.save();
       } else {
         promise = ddoc.destroy();
       }
@@ -1335,7 +1335,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       $('#dashboard-content').scrollTop(0); //scroll up
 
       if (this.hasValidCode() && this.$('#new-ddoc:visible').val() !=="") {
-        var mapVal = this.mapEditor.getValue(), 
+        var mapVal = this.mapEditor.getValue(),
         reduceVal = this.reduceVal(),
         viewName = this.$('#index-name').val(),
         ddoc = this.getCurrentDesignDoc(),
@@ -1365,7 +1365,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
           });
 
           if (that.newView) {
-            var fragment = '/database/' + that.database.safeID() +'/' + ddoc.safeID() + '/_view/' + app.mixins.safeURLName(viewName); 
+            var fragment = '/database/' + that.database.safeID() +'/' + ddoc.safeID() + '/_view/' + app.mixins.safeURLName(viewName);
 
             FauxtonAPI.navigate(fragment, {trigger: false});
             that.newView = false;
@@ -1381,7 +1381,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
 
           if (that.reduceFunStr !== reduceVal) {
             that.reduceFunStr = reduceVal;
-            that.advancedOptions.renderOnUpdatehasReduce(that.hasReduce()); 
+            that.advancedOptions.renderOnUpdatehasReduce(that.hasReduce());
           }
 
           FauxtonAPI.triggerRouteEvent('updateAllDocs', {ddoc: ddocName, view: viewName});
@@ -1407,15 +1407,15 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
 
     updateView: function(event, paramInfo) {
        event.preventDefault();
- 
+
        if (this.newView) { return alert('Please save this new view before querying it.'); }
- 
+
        var errorParams = paramInfo.errorParams,
            params = paramInfo.params;
- 
+
        if (_.any(errorParams)) {
          _.map(errorParams, function(param) {
- 
+
            // TODO: Where to add this error?
            // bootstrap wants the error on a control-group div, but we're not using that
            //$('form.view-query-update input[name='+param+'], form.view-query-update select[name='+param+']').addClass('error');
@@ -1432,14 +1432,14 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
            selector: ".advanced-options .errors-container",
            clear: true
          });
- 
+
          return false;
       }
- 
+
        var fragment = window.location.hash.replace(/\?.*$/, '');
        fragment = fragment + '?' + $.param(params);
        FauxtonAPI.navigate(fragment, {trigger: false});
- 
+
        FauxtonAPI.triggerRouteEvent('updateAllDocs', {ddoc: this.ddocID, view: this.viewName});
     },
 
@@ -1479,7 +1479,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
       }
 
       promise.then(function () {
-        params.docs = that.database.allDocs.map(function (model) { return model.get('doc');}); 
+        params.docs = that.database.allDocs.map(function (model) { return model.get('doc');});
 
         var queryPromise = pouchdb.runViewQuery({map: mapVal, reduce: reduceVal}, params);
         queryPromise.then(function (results) {
@@ -1491,7 +1491,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
     getCurrentDesignDoc: function () {
       return this.designDocSelector.getCurrentDesignDoc();
     },
-    
+
     isCustomReduceEnabled: function() {
       return $("#reduce-function-selector").val() == "CUSTOM";
     },
@@ -1523,7 +1523,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         var editor = this[editorName];
         if (editorName === "reduceEditor" && ! this.isCustomReduceEnabled()) {
           return true;
-        } 
+        }
         return editor.hadValidCode();
       }, this);
     },
@@ -1605,7 +1605,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         ddocName: this.model.id,
         database: this.database
       }));
-      
+
       this.advancedOptions = this.insertView('#query', new Views.AdvancedOptions({
         updateViewFn: this.updateView,
         previewFn: this.previewView,
@@ -1649,7 +1649,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         this.mapEditor.setValue(this.langTemplates[this.defaultLang].map);
         //Use a built in view by default
         //this.reduceEditor.setValue(this.langTemplates[this.defaultLang].reduce);
-      } 
+      }
 
       this.mapEditor.editSaved();
       this.reduceEditor && this.reduceEditor.editSaved();
@@ -1736,7 +1736,7 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
         permissions_url: '#' + this.database.url('app') + '/permissions',
         db_url: '#' + this.database.url('index') + '?limit=' + Databases.DocLimit,
         database: this.collection.database,
-        database_url: '#' + this.database.url('app'), 
+        database_url: '#' + this.database.url('app'),
         docLinks: docLinks,
         docLimit: Databases.DocLimit,
         addLinks: addLinks,
