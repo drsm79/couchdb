@@ -234,7 +234,8 @@ function(app, FauxtonAPI, Components, Documents, Databases, pouchdb, resizeColum
     },
 
     events: {
-      "click #duplicate-btn":"duplicate"
+      "click #duplicate-btn":"duplicate",
+      "submit #doc-duplicate": "duplicate"
 
     },
 
